@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9b57fea4-b767-4d63-8aed-7cdd43575bbb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/(auth)/_layout.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/(auth)/sign-in.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/(auth)/sign-up.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/(tabs)/Camp.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/(tabs)/Centre.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/(tabs)/History.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/(tabs)/Menu.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/(tabs)/_layout.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/(tabs)/home.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/+html.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/+not-found.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/_layout.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/profile.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/search/[query].jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/Poppins-Black.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/Poppins-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/Poppins-ExtraBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/Poppins-ExtraLight.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/Poppins-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/Poppins-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/Poppins-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/Poppins-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/Poppins-Thin.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/bookmark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/bookmark1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/bookmark2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/eye-hide.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/eye.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/home.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/left-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/logout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/menu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/play.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/plus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/plus0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/plus1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/profile1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/right-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/search.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons/upload.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/Hospital.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/Untitled design.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/adaptive-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/bloodD.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/car.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/cards.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/cards0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/cards2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/cards3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/dr.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/drop11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/dropR.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/drop_preview_rev_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/empty.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/empty1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/favicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/logo (2).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/logo-small.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/logo-small.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/logo00.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/logo1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/logo3.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/logo5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/path.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/profile1 (2).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/splash.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/thumbnail.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/babel.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/CustomButton.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ExternalLink.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/FormField.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/HelloWave.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ParallaxScrollView.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ThemedText.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ThemedView.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/navigation/TabBarIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/constants/colors.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/constants/icons.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/constants/images.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/constants/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/context/GlobalProvider.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hooks/useColorScheme.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hooks/useColorScheme.web.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hooks/useThemeColor.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/appwrite.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/reset-project.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2npfNBFVHE4hVph3PAQ8iHmTft8" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "E:/bbmsmobile/BlOOD_aPP"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9b57fea4-b767-4d63-8aed-7cdd43575bbb" name="Changes" comment="" />
+      <created>1729674895909</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1729674895909</updated>
+    </task>
+    <servers />
+  </component>
+</project>

@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
+    "name": "BlOODKING",
+    "slug": "Blood_King",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "bloodking",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.jsm.BLOODKING"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "daf1e54c-4b3e-4ebe-bd13-b206ae2c49d4"
+      }
+    },
+    "owner": "vithurshan"
+  }
+}

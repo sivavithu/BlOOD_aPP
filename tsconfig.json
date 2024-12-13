@@ -1,0 +1,17 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "app/_layout.jsx"
+, "hooks/useColorScheme.ts", "hooks/useColorScheme.web.ts", "hooks/useThemeColor.ts", "components/push.tsx", "supabase/functions/push/index.ts", "providers/NotificationProvider.tsx"  ]
+}
