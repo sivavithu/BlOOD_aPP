@@ -1,21 +1,14 @@
 {
-  "cli": {
-    "version": ">= 13.4.2",
-    "appVersionSource": "remote"
-  },
   "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
-      "distribution": "internal"
-    },
     "production": {
-      "autoIncrement": true
+      "android": {
+        "buildType": "apk",
+        "releaseChannel": "prod",
+        "env": {
+          "EXPO_PUSH_NOTIFICATION_KEY": "BIPy9nBb36LiXqFeXzoFBgWPpnxZ7Vbr54QpOY_Z8UO6C4_f2Xppw0sXwujFwufyR8VgxbNKzpHHeZi8LRAx0qM",
+          "GOOGLE_SERVICES_JSON": "@env:GOOGLE_SERVICES_JSON"
+        }
+      }
     }
-  },
-  "submit": {
-    "production": {}
   }
 }
