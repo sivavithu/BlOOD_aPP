@@ -32,7 +32,7 @@ const NotificationProvider = ({ children }: PropsWithChildren) => {
     await supabase
       .from('profiles')
       .update({ expo_push_token: newToken })
-      .eq('id', session?.user?.id);
+      .eq('id',session?.user?.id);
   };
 
   useEffect(() => {

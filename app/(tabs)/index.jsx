@@ -8,66 +8,71 @@ import { Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useAuth } from '../../providers/AuthProvider';
+import {supabase} from '../../lib/supabase'
 
 const SignUp = () => {
     const [donations, setDonations] = useState(0);
     const [livesSaved, setLivesSaved] = useState(0);
     const [totalBlood, setTotalBlood] = useState(0); // in ml
     const [lastDonationDate, setLastDonationDate] = useState(null);
-    const [nextDonationDate, setNextDonationDate] = useState(null);
+    const [nextDonationDate,setNextDonationDate] = useState(null);
     const [progress, setProgress] = useState(0); // Progress percentage
     const { session } = useAuth();
   
-    useEffect(() => {
-      const fetchDonationData = async () => {
-        // Fetch donation data
-        const { data: donationData, error: donationError } = await supabase
-          .from('donor_donations')
-          .select('no_of_bottles')
-          .eq('donor_id', session.user.id);
-    
-        if (donationError) {
-          Alert.alert('Error fetching donations', donationError.message);
-          return;
-        }
-    
+   useEffect(() => {
+  const fetchDonationData = async () => {
+    try {
+      // Fetch donation data for the user
+      const { data:donationData, error: donationError } = await supabase
+        .from('donor_donations')
+        .select('no_of_bottles,date') // Include donation_date
+        .eq('donor_id',session.user.id)
+        .order('date', { ascending: false }); // Order by donation_date in descending order
+       console.warn("hi",donationData)
+      if (donationError) {
+        Alert.alert('Error fetching donations', donationError.message);
+        return;
+      }
+
+      if (donationData && donationData.length > 0) {
+        // Calculate total bottles, blood, and lives saved
         const totalBottles = donationData.reduce((sum, donation) => sum + donation.no_of_bottles, 0);
         setDonations(totalBottles);
+
         const totalBloodAmount = totalBottles * 200; // Each bottle is 200 ml
         setTotalBlood(totalBloodAmount);
+
         setLivesSaved(Math.floor(totalBloodAmount / 300)); // Each life saved is 300 ml
-    
-        // Fetch last donation date
-        const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('last_donation_date')
-          .eq('id', session.user.id)
-          .single();
-    
-      
-    
-        if (profileData?.last_donation_date) {
-          const lastDate = new Date(profileData.last_donation_date);
-          setLastDonationDate(lastDate);
-    
-          const nextDate = new Date(lastDate);
-          nextDate.setDate(nextDate.getDate() + 100);
-          setNextDonationDate(nextDate);
-    
-          const today = new Date();
-          const daysSinceLastDonation = Math.max(0, (today - lastDate) / (1000 * 60 * 60 * 24));
-          const progressPercentage = Math.min(100, (daysSinceLastDonation / 100) * 100);
-          setProgress(progressPercentage);
-        } else {
-          // No donations provided
-          setLastDonationDate(null);
-          setNextDonationDate(null);
-          setProgress(0);
-        }
-      };
-    
-      fetchDonationData();
-    }, []);
+
+        // Get the most recent donation date
+        const recentDonationDate = new Date(donationData[0].date);
+        setLastDonationDate(recentDonationDate);
+
+        // Calculate next donation date and progress
+        const nextDate = new Date(recentDonationDate);
+        nextDate.setDate(nextDate.getDate() + 100); // 100-day gap
+        setNextDonationDate(nextDate);
+
+        const today = new Date();
+        const daysSinceLastDonation = Math.max(0, (today - recentDonationDate) / (1000 * 60 * 60 * 24));
+        const progressPercentage = Math.min(100, (daysSinceLastDonation / 100) * 100);
+        setProgress(progressPercentage);
+      } else {
+        // No donations found
+        setDonations(0);
+        setTotalBlood(0);
+        setLivesSaved(0);
+        setLastDonationDate(null);
+        setNextDonationDate(null);
+        setProgress(0);
+      }
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
+  };
+
+  fetchDonationData();
+}, []);
 
     return (
         <LinearGradient

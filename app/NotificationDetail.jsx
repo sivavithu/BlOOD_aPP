@@ -16,12 +16,12 @@ export default function NotificationDetail({ navigation }) {
         setLoading(false);
         return;
       }
-
+console.warn(profile)
       try {
         const { data, error } = await supabase
           .from("notifications")
-          .select("id, status, blood_type, user_id, profiles(f_name), title")
-          .eq("blood_type", profile.blood_type);
+          .select("id, status,blood_type,user_id")
+          .eq("blood_type",profile.blood_type);
 
         if (error) {
           console.error("Error fetching notifications:", error);
@@ -128,7 +128,7 @@ export default function NotificationDetail({ navigation }) {
                     {item.title}
                   </Text>
                   <Text style={{ fontSize: 14, color: "#000" }}>
-                    {item.profiles?.f_name || "Unknown"}
+                    {profile?.f_name || "Unknown"}
                   </Text>
                 </View>
               </View>
