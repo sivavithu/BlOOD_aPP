@@ -35,11 +35,10 @@ const SignIn = () => {
     } catch (err) {
       Alert.alert('Error', 'Something went wrong. Please try again.');
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false); 
     }
   };
 
-  // If redirect is true, navigate to the dashboard
  
 
   return (
@@ -68,7 +67,7 @@ const SignIn = () => {
                 marginVertical: 24,
               }}
             >
-              <View style={{ position: 'relative', marginTop: 20 }}>
+              <View style={{ position: 'relative', marginTop: 10 }}>
                 <Text style={{ fontSize: 36, fontWeight: 'bold', textAlign: 'center', color: '#FFFFFF' }}>
                   <Text style={{ color: '#FD0000' }}>Blood KING</Text>
                 </Text>
@@ -101,6 +100,7 @@ const SignIn = () => {
                 otherStyles={{ marginTop: 20 }}
                 keyboardType="email-address"
               />
+              <Text> </Text>
               <FormField
                 title="Password"
                 value={form.password}
@@ -108,10 +108,12 @@ const SignIn = () => {
                 otherStyles={{ marginTop: 20 }}
                 secureTextEntry // Hides password input
               />
+              <Text> </Text>
+              <Text> </Text>
               <CustomButton
                 title={loading ? 'Signing In...' : 'Sign In'}
                 handlePress={submit}
-                containerStyles={{ marginTop: 30 }}
+                containerStyles={{ width: '100%', marginTop: 50, paddingHorizontal:100, paddingVertical: 100 }}
                 disabled={loading} // Disables button during submission
               />
             </View>

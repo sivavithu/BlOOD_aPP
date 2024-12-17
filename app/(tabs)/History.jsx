@@ -8,6 +8,7 @@ import { useAuth } from '../../providers/AuthProvider';
 export default function DonationHistory() {
   const {session}=useAuth()
   const [donations, setDonations] = useState([]);
+  const [details, setDetails] = useState([]);
   const [locations, setLocations] = useState({}); // To store camp locations
   const userId = session.user.id; // Assuming session.user.id is available
 
@@ -15,7 +16,7 @@ export default function DonationHistory() {
   const fetchDonations = async () => {
     const { data, error } = await supabase
       .from('donor_donations')
-      .select('date, camp_id')
+      .select('date,camp_id')
       .eq('donor_id', userId); // F donor_id
 
     if (error) {
@@ -26,7 +27,7 @@ export default function DonationHistory() {
     // Map the fetched data to include the amount in ml
     const formattedDonations = data.map(donation => ({
       date: donation.date,
-      camp_id: donation.camp_id,
+      camp_id:donation.camp_id,
       
     }));
 
@@ -38,7 +39,7 @@ export default function DonationHistory() {
   const fetchCampLocations = async (campIds) => {
     const { data, error } = await supabase
       .from('blood_camp')
-      .select('id, location') // Assuming 'location' is the field for camp location
+      .select('id,name') // Assuming 'location' is the field for camp location
       .in('id', campIds); // Filter by camp_ids
 
     if (error) {
@@ -49,7 +50,7 @@ export default function DonationHistory() {
     // Map locations to camp_ids
     const locationMap = {};
     data.forEach(camp => {
-      locationMap[camp.id] = camp.location; // Assuming 'id' is the camp_id
+      locationMap[camp.id] =camp.name; // Assuming 'id' is the camp_id
     });
 
     setLocations(locationMap);

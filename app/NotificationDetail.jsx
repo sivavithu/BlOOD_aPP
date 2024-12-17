@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Alert, FlatList, Text, View, Pressable, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  Alert,
+  FlatList,
+  Text,
+  View,
+  Pressable,
+  StyleSheet,
+  Image,
+  ScrollView,
+} from "react-native";
+
 import { supabase } from "../lib/supabase";
 import { images } from "../constants";
 import { useAuth } from "../providers/AuthProvider";
@@ -11,17 +21,18 @@ export default function NotificationDetail({ navigation }) {
 
   useEffect(() => {
     const fetchNotifications = async () => {
+     
       if (!profile?.blood_type) {
         Alert.alert("Error", "Blood type not available for this profile.");
         setLoading(false);
         return;
       }
-console.warn(profile)
+
       try {
         const { data, error } = await supabase
           .from("notifications")
-          .select("id, status,blood_type,user_id")
-          .eq("blood_type",profile.blood_type);
+          .select("id, status, blood_type, user_id")
+          .eq("blood_type", profile.blood_type);
 
         if (error) {
           console.error("Error fetching notifications:", error);
@@ -59,7 +70,9 @@ console.warn(profile)
       } else {
         setNotifications((prev) =>
           prev.map((item) =>
-            item.id === notification.id ? { ...item, status: newStatus } : item
+            item.id === notification.id
+              ? { ...item, status: newStatus }
+              : item
           )
         );
       }
@@ -77,14 +90,15 @@ console.warn(profile)
       contentContainerStyle={{
         flexGrow: 1,
         backgroundColor: "#fff",
+        paddingVertical: 20,
+        paddingHorizontal: 15,
         alignItems: "center",
-        padding: 25,
       }}
     >
       <View
         style={{
           backgroundColor: "#ffecec",
-          padding: 25,
+          padding: 20,
           borderRadius: 10,
           alignItems: "center",
           width: "100%",
@@ -96,44 +110,31 @@ console.warn(profile)
           resizeMode="contain"
         />
 
-        <Text style={{ marginVertical: 10, fontSize: 18, fontWeight: "bold" }}>
-          Notifications
-        </Text>
+      
 
         {/* Notifications List */}
         <FlatList
           data={notifications}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: "#add8e6",
-                padding: 10,
-                borderRadius: 10,
-                marginVertical: 5,
-                width: "100%",
-                maxWidth: 350,
-                justifyContent: "space-between",
-              }}
-            >
+            <View style={styles.notificationBox}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   source={images.profile}
-                  style={{ width: 40, height: 40, marginRight: 10 }}
+                  style={styles.profileImage}
                 />
                 <View>
-                  <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000" }}>
-                    {item.title}
+                  <Text style={styles.notificationTitle}>
+                    {item.blood_type}
                   </Text>
-                  <Text style={{ fontSize: 14, color: "#000" }}>
+                  <Text style={styles.notificationName}>
                     {profile?.f_name || "Unknown"}
                   </Text>
                 </View>
               </View>
+              <Text> </Text>
               {item.status === "pending" ? (
-                <View style={{ flexDirection: "row" }}>
+                <View style={styles.buttonContainer}>
                   <Pressable
                     style={[styles.button, styles.acceptButton]}
                     onPress={() => handleAction(item, "accept")}
@@ -148,9 +149,16 @@ console.warn(profile)
                   </Pressable>
                 </View>
               ) : (
-                <Text style={{ fontSize: 14, fontWeight: "bold", color: "#000" }}>
+                <Text
+                  style={[
+                    styles.statusText,
+                    item.status === "Accepted" && styles.acceptedStatus,
+                    item.status === "Declined" && styles.declinedStatus,
+                  ]}
+                >
                   {item.status}
                 </Text>
+
               )}
             </View>
           )}
@@ -161,20 +169,66 @@ console.warn(profile)
 }
 
 const styles = StyleSheet.create({
-  button: {
+  notificationBox: {
+    backgroundColor: "#add8e6",
+    padding: 15,
+    borderRadius: 10,
+    marginVertical: 10,
+    alignSelf: "stretch", 
+  },
+  
+  profileImage: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
+    borderRadius: 25,
+  },
+  notificationTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#000",
+  },
+  notificationName: {
+    fontSize: 20,
+    color: "#000",
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+},
+button: {
     padding: 10,
     borderRadius: 5,
-    marginLeft: 5,
-  },
+    marginHorizontal: 5,
+    flex: 1,
+    alignItems: 'center',
+},
+
   acceptButton: {
-    backgroundColor: "#4CAF50", // Green color
+    backgroundColor: "#4CAF50", 
   },
   declineButton: {
-    backgroundColor: "#F44336", // Red color
+    backgroundColor: "#F44336", 
   },
   buttonText: {
     color: "#fff",
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "bold",
   },
+  statusText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#000",
+    marginTop: -5,
+    textAlign: "center",
+  },
+  acceptedStatus: {
+    color: "#4CAF50", 
+  },
+  
+  declinedStatus: {
+    color: "#F44336", 
+  },
+  
 });

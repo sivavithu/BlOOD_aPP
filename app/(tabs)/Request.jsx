@@ -14,8 +14,7 @@ import { supabase } from "../../lib/supabase";
 
 const profile = require("../../assets/images/pic.png");
 const logout = require("../../assets/icons/logout.png");
-const locationIcon = require("../../assets/icons/Location.png");
-const notification = require("../../assets/icons/notification.png");
+
 
 const Request = () => {
   const router = useRouter();
@@ -88,33 +87,7 @@ const Request = () => {
           </View>
 
           <View style={styles.buttonList}>
-            <Pressable
-              style={styles.buttonSection}
-              onPress={() => router.push("/Location")}
-              accessible={true}
-              accessibilityLabel="Navigate to Location"
-            >
-              <View style={styles.buttonArea}>
-                <View style={styles.iconArea}>
-                  <Image source={locationIcon} style={styles.iconStyle} resizeMode="contain" />
-                </View>
-                <Text style={styles.buttonName}>Location</Text>
-              </View>
-            </Pressable>
-
-            <Pressable
-              style={styles.buttonSection}
-              onPress={() => router.push("/Notifications")}
-              accessible={true}
-              accessibilityLabel="View Notifications"
-            >
-              <View style={styles.buttonArea}>
-                <View style={styles.iconArea}>
-                  <Image source={notification} style={styles.iconStyle} resizeMode="contain" />
-                </View>
-                <Text style={styles.buttonName}>Summary</Text>
-              </View>
-            </Pressable>
+            
 
             <Pressable
               style={styles.buttonSection}

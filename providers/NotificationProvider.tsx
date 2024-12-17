@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { registerForPushNotificationsAsync } from '@/components/push';
 import { ExpoPushToken } from 'expo-notifications';
 import * as Notifications from 'expo-notifications';
@@ -28,11 +28,12 @@ const NotificationProvider = ({ children }: PropsWithChildren) => {
     if (!newToken) {
       return;
     }
+    console.warn(newToken)
     // update the token in the database
     await supabase
       .from('profiles')
-      .update({ expo_push_token: newToken })
-      .eq('id',session?.user?.id);
+      .upsert({id:session?.user?.id, expo_push_token:newToken });
+      
   };
 
   useEffect(() => {

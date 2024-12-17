@@ -83,14 +83,16 @@ export default function App() {
               }}
             >
               "Be the reason for someone’s heartbeat" with{' '}
-              <Text style={{ color: '#ff0000', fontWeight: 'bold' }}>Blood KING</Text>
+              <Text style={{ color: '#FFFFFF', fontWeight: 'bold' , fontStyle: 'italic'}}>Blood KING</Text>
             </Text>
-
+            <Text> </Text>
             <CustomButton
               title="Continue"
-              handlePress={() => setButtonPressed(true)} // Update the state on button press
-              containerStyles={{ width: '100%', marginTop: 50 }}
+              handlePress={() => setButtonPressed(true)}
+              containerStyles={{ width: '100%', marginTop: 50, paddingHorizontal:100, paddingVertical: 100, marginBottom: 20 }}
             />
+
+
           </View>
         </ScrollView>
         <StatusBar backgroundColor="#FFFFFF" style="dark" />
