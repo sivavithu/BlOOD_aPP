@@ -7,7 +7,7 @@ const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
     return(
-       <Tab.Navigators
+       <Tab.Navigator
        screenOptions = {{
         tabBarShowLabel: false,
         headerShown: false,

@@ -68,7 +68,7 @@ export async function sendPushNotification(
   console.log(message)
 }
 
-const getUserToken = async (userId) => {
+const getUserToken = async (userId: string) => {
   const { data } = await supabase
     .from('profiles')
     .select('*')
@@ -77,7 +77,12 @@ const getUserToken = async (userId) => {
   return data?.expo_push_token;
 };
 
-export const notifyUserAboutnoteUpdate = async (note) => {
+interface Note {
+  user_id: string;
+  // Add other properties of the note object here
+}
+
+export const notifyUserAboutnoteUpdate = async (note: Note) => {
   const token = await getUserToken(note.user_id);
   console.log('note: ', note);
   const title = `Your note is `;

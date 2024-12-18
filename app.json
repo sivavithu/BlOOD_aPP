@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "googleServicesFile": "./service.json",
+      "googleServicesFile": "./google-services.json",
       "package": "com.jsm.BLOODKING"
     },
     "web": {

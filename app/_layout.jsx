@@ -8,7 +8,7 @@ import Profile from './profile'; // Ensure you import the correct Profile compon
 import Notifications from './Notifications'; // Import Notifications screen
 
 import AuthProvider, { useAuth } from '@/providers/AuthProvider';
-import QueryProvider from '@/providers/QueryProvider';
+
 
 
 import Push from '@/components/push';

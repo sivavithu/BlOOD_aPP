@@ -1,26 +1,17 @@
-import React from 'react';
+import React, { createContext, useContext, useEffect, useState, PropsWithChildren } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Session } from '@supabase/supabase-js';
-import {
-  PropsWithChildren,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
 
 type AuthData = {
   session: Session | null;
   profile: any;
   loading: boolean;
-
 };
 
 const AuthContext = createContext<AuthData>({
   session: null,
   loading: true,
   profile: null,
-
 });
 
 export default function AuthProvider({ children }: PropsWithChildren) {
@@ -30,37 +21,52 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     const fetchSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        setSession(session);
 
-      setSession(session);
+        if (session) {
+          await fetchProfile(session.user.id);
+        }
+      } catch (error) {
+        console.error('Error fetching session:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      if (session) {
-        // fetch profile
-        const { data } = await supabase
+    const fetchProfile = async (userId: string) => {
+      try {
+        const { data, error } = await supabase
           .from('profiles')
           .select('*')
-          .eq('id', session.user.id)
+          .eq('id', userId)
           .single();
-        setProfile(data || null);
-      
+        if (error) throw error;
+        setProfile(data);
+      } catch (error) {
+        console.error('Error fetching profile:', error);
       }
-
-
-      setLoading(false);
     };
 
     fetchSession();
-    supabase.auth.onAuthStateChange((_event, session) => {
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
+      if (session) {
+        await fetchProfile(session.user.id);
+      } else {
+        setProfile(null);
+      }
     });
+
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ session, loading, profile}}
-    >
+    <AuthContext.Provider value={{ session, loading, profile }}>
       {children}
     </AuthContext.Provider>
   );

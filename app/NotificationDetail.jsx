@@ -21,37 +21,35 @@ export default function NotificationDetail({ navigation }) {
 
   useEffect(() => {
     const fetchNotifications = async () => {
-     
       if (!profile?.blood_type) {
         Alert.alert("Error", "Blood type not available for this profile.");
         setLoading(false);
         return;
       }
-
+  
       try {
         const { data, error } = await supabase
           .from("notifications")
-          .select("id, status, blood_type, user_id")
+          .select("id, status,body, blood_type, user_id")
           .eq("blood_type", profile.blood_type);
-
+  
         if (error) {
           console.error("Error fetching notifications:", error);
         } else {
-          setNotifications(data);
+          console.warn(data)
+          setNotifications(data || []); // Ensure no null values are passed
         }
       } catch (err) {
         console.error("Unexpected error:", err);
       }
-
+  
       setLoading(false);
     };
-
-    // Fetch notifications initially
+  
     fetchNotifications();
-
-    // Cleanup function to prevent memory leaks
+  
     return () => {
-      setNotifications([]);
+      setNotifications([]); // Cleanup notifications on unmount
     };
   }, [profile]);
 
@@ -125,7 +123,7 @@ export default function NotificationDetail({ navigation }) {
                 />
                 <View>
                   <Text style={styles.notificationTitle}>
-                    {item.blood_type}
+                    {item.body}
                   </Text>
                   <Text style={styles.notificationName}>
                     {profile?.f_name || "Unknown"}
@@ -184,7 +182,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   notificationTitle: {
-    fontSize: 22,
+    fontSize: 15,
     fontWeight: "bold",
     color: "#000",
   },
