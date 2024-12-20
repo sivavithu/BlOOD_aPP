@@ -9,7 +9,7 @@ import { useAuth } from '../providers/AuthProvider';
 import { useState } from 'react';
 
 export default function App() {
-  const { session, loading } = useAuth();
+  const { session, loading,profile } = useAuth();
   const [buttonPressed, setButtonPressed] = useState(false);
 
   if (loading) {

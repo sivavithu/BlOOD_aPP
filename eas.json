@@ -6,8 +6,16 @@
         "releaseChannel": "prod",
         "env": {
           "EXPO_PUSH_NOTIFICATION_KEY": "BIPy9nBb36LiXqFeXzoFBgWPpnxZ7Vbr54QpOY_Z8UO6C4_f2Xppw0sXwujFwufyR8VgxbNKzpHHeZi8LRAx0qM"
-          
         }
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "./service-account.json",
+        "track": "internal",
+        "releaseStatus": "completed"
       }
     }
   }

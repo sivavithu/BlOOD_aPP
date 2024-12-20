@@ -15,25 +15,25 @@ import { supabase } from "../../lib/supabase";
 const profile = require("../../assets/images/pic.png");
 const logout = require("../../assets/icons/logout.png");
 
-
 const Request = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loggingOut, setLoggingOut] = useState(false); // Track logout process
 
   useEffect(() => {
+    // func sessions
     const fetchSession = async () => {
+      setLoading(true);
       try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) {
-          console.error("Error fetching session:", error.message);
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
+        if (error || !session?.user) {
           router.replace("/(auth)/sign-in");
-          return;
-        }
-        if (session?.user) {
-          setUser(session.user);
         } else {
-          router.replace("/(auth)/sign-in");
+          setUser(session.user);
         }
       } catch (err) {
         console.error("Unexpected error fetching session:", err.message);
@@ -47,19 +47,25 @@ const Request = () => {
   }, [router]);
 
   const handleLogout = async () => {
+    setLoggingOut(true); // Start logout process
+    // console.log("Starting SignOut: ", session);//Debugging
     try {
       const { error } = await supabase.auth.signOut();
       if (error) {
         console.error("Logout error:", error.message);
+        setLoggingOut(false); // Stop logout process on error
       } else {
+        setUser(null); // Clear user state
         router.replace("/(auth)/sign-in");
       }
     } catch (err) {
       console.error("Unexpected error during logout:", err.message);
+      setLoggingOut(false); // Stop logout process on error
     }
   };
 
-  if (loading) {
+  // Block rendering while loading session or logging out
+  if (loading || loggingOut) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#FD0000" />
@@ -68,16 +74,15 @@ const Request = () => {
   }
 
   if (!user) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.loadingText}>No active session found.</Text>
-      </View>
-    );
+    return null; // Avoid rendering when user is null
   }
 
   return (
     <View style={styles.container}>
-      <LinearGradient colors={["#FFFFFF", "#FFFFFF", "#FD0000"]} style={styles.linearGradient}>
+      <LinearGradient
+        colors={["#FFFFFF", "#FFFFFF", "#FD0000"]}
+        style={styles.linearGradient}
+      >
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.topSection}>
             <View style={styles.propicArea}>
@@ -87,8 +92,6 @@ const Request = () => {
           </View>
 
           <View style={styles.buttonList}>
-            
-
             <Pressable
               style={styles.buttonSection}
               onPress={handleLogout}
@@ -97,7 +100,11 @@ const Request = () => {
             >
               <View style={styles.buttonArea}>
                 <View style={styles.iconArea}>
-                  <Image source={logout} style={styles.iconStyle} resizeMode="contain" />
+                  <Image
+                    source={logout}
+                    style={styles.iconStyle}
+                    resizeMode="contain"
+                  />
                 </View>
                 <Text style={styles.buttonName}>Logout</Text>
               </View>
@@ -173,9 +180,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "black",
     marginLeft: 20,
-  },
-  loadingText: {
-    color: "white",
-    fontSize: 18,
   },
 });

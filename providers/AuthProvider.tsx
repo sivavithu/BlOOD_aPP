@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, PropsWithChildren } from 'react';
+import React,{ createContext, useContext, useEffect, useState, PropsWithChildren } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Session } from '@supabase/supabase-js';
 
@@ -20,13 +20,15 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    
     const fetchSession = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
+        console.warn(session)
         setSession(session);
 
         if (session) {
-          await fetchProfile(session.user.id);
+          await fetchProfile(session?.user?.id);
         }
       } catch (error) {
         console.error('Error fetching session:', error);

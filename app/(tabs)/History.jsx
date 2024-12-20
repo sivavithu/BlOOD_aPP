@@ -6,41 +6,33 @@ import { supabase } from '../../lib/supabase'; // Adjust the path as necessary
 import { useAuth } from '../../providers/AuthProvider';
 
 export default function DonationHistory() {
-  const {session}=useAuth()
+  const { session } = useAuth();
   const [donations, setDonations] = useState([]);
-  const [details, setDetails] = useState([]);
-  const [locations, setLocations] = useState({}); // To store camp locations
+  const [locations, setLocations] = useState({});
   const userId = session.user.id; // Assuming session.user.id is available
 
   // Fetch donation data for the specific donor
   const fetchDonations = async () => {
     const { data, error } = await supabase
       .from('donor_donations')
-      .select('date,camp_id')
-      .eq('donor_id', userId); // F donor_id
+      .select('id, date, camp_id')
+      .eq('donor_id', userId);
 
     if (error) {
       Alert.alert('Error fetching donations', error.message);
       return;
     }
 
-    // Map the fetched data to include the amount in ml
-    const formattedDonations = data.map(donation => ({
-      date: donation.date,
-      camp_id:donation.camp_id,
-      
-    }));
-
-    setDonations(formattedDonations);
-    fetchCampLocations(formattedDonations.map(d => d.camp_id)); // Fetch locations for the camp_ids
+    setDonations(data || []);
+    fetchCampLocations(data?.map((d) => d.camp_id) || []); // Fetch locations for the camp_ids
   };
 
   // Fetch camp locations based on camp_ids
   const fetchCampLocations = async (campIds) => {
     const { data, error } = await supabase
       .from('blood_camp')
-      .select('id,name') // Assuming 'location' is the field for camp location
-      .in('id', campIds); // Filter by camp_ids
+      .select('id, name')
+      .in('id', campIds);
 
     if (error) {
       Alert.alert('Error fetching camp locations', error.message);
@@ -49,15 +41,86 @@ export default function DonationHistory() {
 
     // Map locations to camp_ids
     const locationMap = {};
-    data.forEach(camp => {
-      locationMap[camp.id] =camp.name; // Assuming 'id' is the camp_id
+    data.forEach((camp) => {
+      locationMap[camp.id] = camp.name;
     });
 
     setLocations(locationMap);
   };
 
+  // Subscribe to real-time changes in the `donor_donations` table
+  const subscribeToDonations = () => {
+    const subscription = supabase
+      .channel('donor-donations-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'donor_donations' },
+        (payload) => {
+          console.log('Realtime donation update:', payload);
+
+          const updatedDonation = payload.new;
+          switch (payload.eventType) {
+            case 'INSERT':
+              setDonations((prev) => [...prev, updatedDonation]);
+              fetchCampLocations([updatedDonation.camp_id]);
+              break;
+            case 'UPDATE':
+              setDonations((prev) =>
+                prev.map((donation) =>
+                  donation.id === updatedDonation.id ? updatedDonation : donation
+                )
+              );
+              break;
+            case 'DELETE':
+              setDonations((prev) =>
+                prev.filter((donation) => donation.id !== payload.old.id)
+              );
+              break;
+            default:
+              break;
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+    };
+  };
+
+  // Subscribe to real-time changes in the `blood_camp` table
+  const subscribeToCampUpdates = () => {
+    const subscription = supabase
+      .channel('blood-camp-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'blood_camp' },
+        (payload) => {
+          console.log('Realtime camp update:', payload);
+
+          const updatedCamp = payload.new;
+          setLocations((prev) => ({
+            ...prev,
+            [updatedCamp.id]: updatedCamp.name,
+          }));
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+    };
+  };
+
   useEffect(() => {
     fetchDonations();
+    const unsubscribeDonations = subscribeToDonations();
+    const unsubscribeCampUpdates = subscribeToCampUpdates();
+
+    return () => {
+      unsubscribeDonations();
+      unsubscribeCampUpdates();
+    };
   }, []);
 
   return (
@@ -77,10 +140,16 @@ export default function DonationHistory() {
           width: '100%',
         }}
       >
-        <Text style={{ fontSize: 36, fontWeight: 'bold', textAlign: 'left', color: '#FFFFFF', padding: 15 }}>
-          <Text style={{ color: '#FD0000' }}>
-            Donation History !!!
-          </Text>
+        <Text
+          style={{
+            fontSize: 36,
+            fontWeight: 'bold',
+            textAlign: 'left',
+            color: '#FFFFFF',
+            padding: 15,
+          }}
+        >
+          <Text style={{ color: '#FD0000' }}>Donation History !!!</Text>
         </Text>
 
         <Image
@@ -111,15 +180,16 @@ export default function DonationHistory() {
                 resizeMode="contain"
               />
               <View>
-                <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}>
+                <Text
+                  style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}
+                >
                   {donation.date}
                 </Text>
                 <Text style={{ fontSize: 14, color: '#fff' }}>
-                  {locations[donation.camp_id] || 'Loading...'} {/* Show location */}
+                  {locations[donation.camp_id] || 'Loading...'}
                 </Text>
               </View>
             </View>
-            
           </View>
         ))}
       </View>

@@ -1,17 +1,24 @@
 import { ScrollView, View, Text, Image, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { images } from '../../constants';
-import { fetchActiveCamps } from '../../api/bloodcamp';
+import { supabase } from '../../lib/supabase'; // Adjust based on your project structure
 
 export default function BloodBankCamp() {
   const [camps, setCamps] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch active camps initially
   const loadCamps = async () => {
     setLoading(true);
     try {
-      const activeCamps = await fetchActiveCamps();
-      setCamps(activeCamps);
+      const { data, error } = await supabase
+        .from('blood_camp')
+        .select('*')
+        .eq('status', 'active'); // Assuming there's a 'status' column for active camps
+
+      if (error) throw error;
+
+      setCamps(data || []);
     } catch (err) {
       Alert.alert('Error', err.message);
     } finally {
@@ -19,8 +26,50 @@ export default function BloodBankCamp() {
     }
   };
 
+  // Subscribe to real-time changes in the `bloodcamp` table
+  const subscribeToCamps = () => {
+    const subscription = supabase
+      .channel('bloodcamp-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'blood_camp' },
+        (payload) => {
+          console.log('Realtime update:', payload);
+
+          const updatedCamp = payload.new;
+          switch (payload.eventType) {
+            case 'INSERT':
+              setCamps((prev) => [...prev, updatedCamp]);
+              break;
+            case 'UPDATE':
+              setCamps((prev) =>
+                prev.map((camp) =>
+                  camp.id === updatedCamp.id ? updatedCamp : camp
+                )
+              );
+              break;
+            case 'DELETE':
+              setCamps((prev) => prev.filter((camp) => camp.id !== payload.old.id));
+              break;
+            default:
+              break;
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+    };
+  };
+
   useEffect(() => {
     loadCamps();
+    const unsubscribe = subscribeToCamps();
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   if (loading) {
@@ -88,7 +137,7 @@ export default function BloodBankCamp() {
               borderRadius: 10,
               marginVertical: 5,
               width: '100%',
-              maxWidth: 350, 
+              maxWidth: 350,
             }}
           >
             <Image
@@ -101,7 +150,7 @@ export default function BloodBankCamp() {
                   fontSize: 16,
                   fontWeight: 'bold',
                   color: '#000',
-                  flexWrap: 'wrap', 
+                  flexWrap: 'wrap',
                 }}
               >
                 {camp.date}
@@ -111,10 +160,10 @@ export default function BloodBankCamp() {
                   fontSize: 14,
                   color: '#000',
                   flexWrap: 'wrap',
-                  maxWidth: '100%', 
+                  maxWidth: '100%',
                 }}
-                numberOfLines={1} 
-                ellipsizeMode="tail" 
+                numberOfLines={1}
+                ellipsizeMode="tail"
               >
                 {camp.address}
               </Text>
@@ -123,6 +172,5 @@ export default function BloodBankCamp() {
         ))}
       </View>
     </ScrollView>
-    
   );
 }
